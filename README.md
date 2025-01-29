@@ -31,6 +31,7 @@ Usage Info: In cases where a campaign has RestrictDevTools or RestrictAvatars en
 
 ### Save Point
 Usage Info: Save Points can be placed around your campaign. In order to save a SavePoint, call the Save method. This will save the level, the current position, as well as the player's inventory into the save to load back to later. See "ContinueCampaign" component for more info on making a continue button.
+If applicable, Save Points are also able to save items other than just your inventory. Based on the functionality in Boneworks, by putting a Box Collider set to Trigger on your save point (moved around independently by editing collider center), any spawnable items that intersect the trigger at the time of saving are saved as well. When loading from a save point, all items will be spawned at the box trigger's center position.
 
 ### Continue Campaign
 Usage Info: Used for interfacing with the current SavePoint. Calling the Continue() method will load you to your save point. To have a Continue button that only shows when there is a valid save point, you can invoke the EnableIfValidSave() method, passing in the Button gameobject, just make sure that it is disabled beforehand. Then, you can just have the button call the Continue method when clicked.
