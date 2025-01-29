@@ -6,12 +6,19 @@ When making a campaign that supports CustomCampaignTools, it's important to make
 
 ## Campaign Options
 **Name:** What name to show when selecting a campaign
+
 **MainLevels:** Which levels are the "Main" campaign levels. These levels will have their ammo saved
+
 **ExtraLevels:** Any additional levels that are part of your campaign. These levels will not have their ammo saved.
+
 **MainMenu:** The initial level that will be loaded when selecting a campaign.
+
 **LoadLevel:** If you have a custom loading screen, this will be used when loading the campaign, or loading from a ContinueCampaign component.
+
 **RestrictDevTools:** Used to restrict dev tools from the player, until unlocked by CampaignUnlocking.
+
 **RestrictAvatars:** Used to restrict avatar switching from the player, until unlocked by CampaignUnlocking.
+
 **CampaignAvatar:** When RestrictAvatars is enabled, this avatar will be used by default. If set to none, you will be restricted to use whatever avatar you were last wearing. Kinda broken if you leave this blank.
 
 ## Scripts Usage Info
