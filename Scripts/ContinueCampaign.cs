@@ -8,5 +8,7 @@ namespace CustomCampaignTools.SDK
         {
 
         }
+
+        public void EnableIfValidSave(GameObject obj) { }
     }
 }
