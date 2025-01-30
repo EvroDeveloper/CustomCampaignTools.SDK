@@ -1,9 +1,0 @@
-{
-    "name": "com.evrodev.customcampaigntools.sdk",
-    "version": "1.0.0",
-    "displayName": "Custom Campaign Tools SDK",
-    "description": "Tools and Scripts to create Marrow Campaigns to function with the CustomCampaingTools mod for Bonelab",
-    "unity": "2021.3",
-    "unityRelease": "16f1",
-    "hideInEditor": false
-  }
