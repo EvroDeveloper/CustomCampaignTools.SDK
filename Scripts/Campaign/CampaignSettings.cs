@@ -28,7 +28,7 @@ namespace CustomCampaignTools.SDK
         public bool RestrictDevTools = false;
         public bool RestrictAvatar = false;
         public AvatarCrateReference CampaignAvatar;
-        public bool SaveWeaponsBetweenLevels = false;
+        //public bool SaveWeaponsBetweenLevels = false;
         public bool SaveAmmoBetweenLevels = true;
         public Achievement[] Achievements;
 
@@ -136,16 +136,25 @@ namespace CustomCampaignTools.SDK
     public struct Achievement
     {
         public string Key;
+        public bool Hidden;
         public MarrowAssetT<Texture2D> Icon;
         public string Name;
         public string Description;
 
         public AchievementData ConvertToData()
         {
+            byte[] IconBytes = [];
+
+            string path = AssetDatabase.GUIDToAssetPath(Icon.AssetGUID);
+
+            if(File.Exists(path))
+                IconBytes = File.ReadAllBytes(path);
+            
             return new AchievementData()
             {
                 Key = Key,
-                IconGUID = Icon.AssetGUID,
+                Hidden = Hidden,
+                IconBytes = IconBytes,
                 Name = Name,
                 Description = Description,
             };
@@ -170,7 +179,8 @@ namespace CustomCampaignTools.SDK
     public struct AchievementData
     {
         public string Key { get; set; }
-        public string IconGUID { get; set; }
+        public bool Hidden { get; set; }
+        public byte[] IconBytes { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

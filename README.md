@@ -2,6 +2,7 @@
 A set of scripts to allow BoneLab modders to integrate Campaign features into their campaign mod.
 
 ## Important Notes
+All script methods MUST be invoked from an UltEvent. If you call methods on custom scripts from a default Unity Event, your game WILL CRASH. If you need to invoke something from a unity event, have it go through an UltEventHolder invoked by the Unity Event.
 When making a campaign that supports CustomCampaignTools, it's important to make sure that most things work without the mod installed. If something relies too heavily on the mod (not recommended) you should include a disclaimer for the player in-game. 
 
 ## Campaign Options
@@ -13,13 +14,25 @@ When making a campaign that supports CustomCampaignTools, it's important to make
 
 **MainMenu:** The initial level that will be loaded when selecting a campaign.
 
-**LoadLevel:** If you have a custom loading screen, this will be used when loading the campaign, or loading from a ContinueCampaign component.
+**LoadScene:** If you have a custom loading screen, this will be used when loading the campaign, or loading from a ContinueCampaign component.
+
+**ShowCampaignInMenu** If enabled, will show the campaign in the new Campaign menu in G114 and BoneMenu
 
 **RestrictDevTools:** Used to restrict dev tools from the player, until unlocked by CampaignUnlocking.
 
 **RestrictAvatars:** Used to restrict avatar switching from the player, until unlocked by CampaignUnlocking.
 
 **CampaignAvatar:** When RestrictAvatars is enabled, this avatar will be used by default. If set to none, you will be restricted to use whatever avatar you were last wearing. Kinda broken if you leave this blank.
+
+**SaveAmmoBetweenLevels** If enabled, your high-score of ammo will be saved for each level in MainLevels. Ammo is NOT saved in ExtraLevels or MainMenu. Functions similar to Boneworks Ammo Saving
+
+**Achievements** Gives you the ability to add your own custom achievements to your campaign. Achievements have the following properties:
+ - Key: A unique string that represents the achievement
+ - Hidden: Whether or not the description of the Achievement is shown before unlocking.
+ - Name: The name of the Achievement
+ - Icon: A custom icon for the achievement. If left blank, a default icon will be used.
+ - Description: A short description about the Achievement
+
 
 ## Scripts Usage Info
 
@@ -44,3 +57,13 @@ Usage Info: Used in conjunction with HideOnAwake, will unhide the object if the 
 
 ### Variable Manager
 Usage Info: CustomCampaignTools's saving system has a section for saving specific float values that can be set by the modder. Interfacing everything through ultevents, you can call SetValue, IncrementValue, GetValue (to get a return value to use as a parameter), and InvokeIf, which provides functionality for invoking a given UltEventHolder if the value matches the comparison type to the compared value. It is a bit complex, and definately not NEEDED for every campaign, but I wanted an easy way to save and read your own data.
+
+### Campaign Achievement Manager
+Usage Info: Used to unlock achievements by key. When an achievement is unlocked, it will send a BoneMenu notification. Call UnlockAchievement and put in the unique key of the achievement to unlock.
+
+### Achievement Display
+Usage Info: Used to display all achievements from the current campaign in your level. Call SetupReferences on Start to specify navigation buttons and TextMeshPro components. Then call Activate when the player enters a bounding area near the display.
+
+### Achievement Reference Holder
+Usage Info: Used with AchievementDisplay in order to specify which objects to show achievement name, description, and icon on. Call SetupReferences on Awake
+
