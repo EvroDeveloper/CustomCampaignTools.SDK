@@ -3,6 +3,7 @@ A set of scripts to allow BoneLab modders to integrate Campaign features into th
 
 ## Important Notes
 All script methods MUST be invoked from an UltEvent. If you call methods on custom scripts from a default Unity Event, your game WILL CRASH. If you need to invoke something from a unity event, have it go through an UltEventHolder invoked by the Unity Event.
+
 When making a campaign that supports CustomCampaignTools, it's important to make sure that most things work without the mod installed. If something relies too heavily on the mod (not recommended) you should include a disclaimer for the player in-game. 
 
 ## Campaign Options
