@@ -90,7 +90,7 @@ namespace CustomCampaignTools.SDK
                 RestrictDevTools = RestrictDevTools,
                 RestrictAvatar = RestrictAvatar,
                 CampaignAvatar = CampaignAvatar.Barcode.ID,
-                SaveLevelWeapons = SaveWeaponsBetweenLevels,
+                SaveLevelWeapons = false,//SaveWeaponsBetweenLevels,
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
             };
@@ -143,7 +143,7 @@ namespace CustomCampaignTools.SDK
 
         public AchievementData ConvertToData()
         {
-            byte[] IconBytes = [];
+            byte[] IconBytes = new byte[0];
 
             string path = AssetDatabase.GUIDToAssetPath(Icon.AssetGUID);
 
