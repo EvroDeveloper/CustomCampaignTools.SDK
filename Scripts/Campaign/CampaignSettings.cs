@@ -32,6 +32,7 @@ namespace CustomCampaignTools.SDK
         public bool SaveAmmoBetweenLevels = true;
         public Achievement[] Achievements;
 
+#if UNITY_EDITOR
         [ContextMenu("Add Assets to Addressables")]
         public void AddAssetsToAddressables()
         {
@@ -43,7 +44,6 @@ namespace CustomCampaignTools.SDK
 
         public static void AddTextureToAddressables(MarrowAssetT<Texture2D> texture, string groupName = "Campaign", string addressName = null)
         {
-#if UNITY_EDITOR
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
             if (settings == null)
             {
@@ -72,10 +72,8 @@ namespace CustomCampaignTools.SDK
             EditorUtility.SetDirty(settings);
 
             Debug.Log($"Texture '{texture.EditorAsset.name}' successfully added to Addressable group with address '{addressName}'.");
-#endif
         }
 
-#if UNITY_EDITOR
         [ContextMenu("Save Json")]
         public void SaveCampaignJson()
         {
@@ -103,7 +101,7 @@ namespace CustomCampaignTools.SDK
             string outputPath = Path.Combine(AddressablesManager.GetBuiltModFolder(Pallet), "campaign.json.bundle");
             File.WriteAllText(outputPath, json);
         }
-#endif
+
 
         private List<string> LevelCrateArrayToBarcodes(LevelCrateReference[] levelCrateReferences)
         {
@@ -114,8 +112,9 @@ namespace CustomCampaignTools.SDK
             }
             return barcodes;
         }
+#endif
     }
-
+#if UNITY_EDITOR
     internal class CampaignLoadingData
     {
         public string Name { get; set; }
@@ -146,7 +145,6 @@ namespace CustomCampaignTools.SDK
             byte[] IconBytes = new byte[0];
 
             string path = AssetDatabase.GUIDToAssetPath(Icon.AssetGUID);
-
             if(File.Exists(path))
                 IconBytes = File.ReadAllBytes(path);
             
@@ -159,8 +157,6 @@ namespace CustomCampaignTools.SDK
                 Description = Description,
             };
         }
-
-        
     }
 
     public static class AchievementArrayExtensions
@@ -184,4 +180,5 @@ namespace CustomCampaignTools.SDK
         public string Name { get; set; }
         public string Description { get; set; }
     }
+#endif
 }
