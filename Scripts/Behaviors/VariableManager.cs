@@ -3,7 +3,7 @@ using UltEvents;
 
 namespace CustomCampaignTools.SDK
 {
-    [AddComponentMenu("CustomCampaignTools/Variable Manager")]
+    [AddComponentMenu("CustomCampaignTools/UltEvent Utilities/Variable Manager")]
     public class VariableManager : MonoBehaviour
     {
         public void SetValue(string key, float value) { }

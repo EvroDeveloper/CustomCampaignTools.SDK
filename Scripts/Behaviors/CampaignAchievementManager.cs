@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CustomCampaignTools.SDK
 {
+    [AddComponentMenu("CustomCampaignTools/Achievements/Achievement Manager")]
     public class CampaignAchievementManager : MonoBehaviour
     {
         public void UnlockAchievement(string Key)
