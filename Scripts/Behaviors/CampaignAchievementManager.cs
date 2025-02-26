@@ -10,5 +10,9 @@ namespace CustomCampaignTools.SDK
         public void UnlockAchievement(string Key)
         {
         }
+
+        public void RelockAchievement(string Key)
+        {
+        }
     }
 }
