@@ -130,6 +130,7 @@ namespace CustomCampaignTools.SDK
         public bool SaveLevelAmmo { get; set; }
         public List<AchievementData> Achievements { get; set; }
     }
+#endif
 
     [Serializable]
     public struct Achievement
@@ -140,6 +141,7 @@ namespace CustomCampaignTools.SDK
         public string Name;
         public string Description;
 
+#if UNITY_EDITOR
         public AchievementData ConvertToData()
         {
             byte[] IconBytes = new byte[0];
@@ -157,8 +159,10 @@ namespace CustomCampaignTools.SDK
                 Description = Description,
             };
         }
+#endif
     }
 
+#if UNITY_EDITOR
     public static class AchievementArrayExtensions
     {
         public static List<AchievementData> ToData(this Achievement[] achievements)
