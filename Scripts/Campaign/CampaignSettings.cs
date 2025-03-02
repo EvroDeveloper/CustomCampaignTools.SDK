@@ -26,8 +26,10 @@ namespace CustomCampaignTools.SDK
         public LevelCrateReference LoadScene;
         public bool ShowCampaignInMenu = true;
         public bool RestrictDevTools = false;
-        public bool RestrictAvatar = false;
+        public AvatarRestrictionType AvatarRestriction = AvatarRestrictionType.None;
         public AvatarCrateReference CampaignAvatar;
+        public AvatarCrateReference BaseGameFallbackAvatar;
+        public AvatarCrateReference[] WhitelistedAvatars;
         //public bool SaveWeaponsBetweenLevels = false;
         public bool SaveAmmoBetweenLevels = true;
         public Achievement[] Achievements;
@@ -81,13 +83,15 @@ namespace CustomCampaignTools.SDK
             {
                 Name = Name,
                 InitialLevel = MainMenu.Barcode.ID,
-                MainLevels = LevelCrateArrayToBarcodes(MainLevels),
-                ExtraLevels = LevelCrateArrayToBarcodes(ExtraLevels),
+                MainLevels = CrateArrayToBarcodes(MainLevels),
+                ExtraLevels = CrateArrayToBarcodes(ExtraLevels),
                 LoadScene = LoadScene.Barcode.ID,
                 ShowInMenu = ShowCampaignInMenu,
                 RestrictDevTools = RestrictDevTools,
-                RestrictAvatar = RestrictAvatar,
+                AvatarRestrictionType = AvatarRestriction,
+                WhitelistedAvatars = CrateArrayToBarcodes(WhitelistedAvatars),
                 CampaignAvatar = CampaignAvatar.Barcode.ID,
+                BaseGameFallbackAvatar = BaseGameFallbackAvatar.Barcode.ID,
                 SaveLevelWeapons = false,//SaveWeaponsBetweenLevels,
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
@@ -103,10 +107,10 @@ namespace CustomCampaignTools.SDK
         }
 
 
-        private List<string> LevelCrateArrayToBarcodes(LevelCrateReference[] levelCrateReferences)
+        private List<string> CrateArrayToBarcodes(ScannableReference[] levelCrateReferences)
         {
             List<string> barcodes = new List<string>();
-            foreach(LevelCrateReference re in levelCrateReferences)
+            foreach(ScannableReference re in levelCrateReferences)
             {
                 barcodes.Add(re.Barcode.ID);
             }
@@ -124,13 +128,25 @@ namespace CustomCampaignTools.SDK
         public string LoadScene { get; set; }
         public bool ShowInMenu { get; set; }
         public bool RestrictDevTools { get; set; }
-        public bool RestrictAvatar { get; set; }
+        public AvatarRestrictionType AvatarRestrictionType { get; set; }
         public string CampaignAvatar { get; set; }
+        public string BaseGameFallbackAvatar { get; set; }
+        public List<string> WhitelistedAvatars { get; set; }
         public bool SaveLevelWeapons { get; set; }
         public bool SaveLevelAmmo { get; set; }
         public List<AchievementData> Achievements { get; set; }
+
     }
 #endif
+
+    [Flags]
+    public enum AvatarRestrictionType
+    {
+        None = 0,
+        DisableBodyLog = 1,
+        RestrictAvatar = 2,
+        EnforceWhitelist = 4
+    }
 
     [Serializable]
     public struct Achievement
