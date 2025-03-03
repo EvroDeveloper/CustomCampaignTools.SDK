@@ -20,22 +20,40 @@ namespace CustomCampaignTools.SDK
     {
         public Pallet Pallet;
         public string Name = "New Campaign";
+
+        [Header("Levels")]
         public LevelCrateReference MainMenu;
         public LevelCrateReference[] MainLevels;
         public LevelCrateReference[] ExtraLevels;
         public LevelCrateReference LoadScene;
-        public bool ShowCampaignInMenu = true;
+        [Tooltip("If enabled, levels will not show up in the Levels menu until they have been entered, or unlocked via CampaignUnlocking")]
+        public bool UnlockableLevels;
+
+        [Header("Cheat Restriction (Unlock with CampaignUnlocking)")]
         public bool RestrictDevTools = false;
+        [Tooltip("Support for restricting the avatar during the campaign. \nRestriction type will enforce a single avatar and disable the avatar menu. \nWhitelist will override Restriction and will let the player choose from a whitelist of avatars. \nAvatar Restriction can be bypassed when CampaignUnlocking.UnlockAvatar is called.")]
         public AvatarRestrictionType AvatarRestriction = AvatarRestrictionType.None;
+        [Tooltip("The default avatar to use in the campaign. Can be from an optional mod")]
         public AvatarCrateReference CampaignAvatar;
+        [Tooltip("A fallback base-game avatar if the player does not have Campaign Avatar installed (in the case of a modded avatar)")]
         public AvatarCrateReference BaseGameFallbackAvatar;
+        [Tooltip("If Avatar Restriction is set to Whitelist, these will be allowed")]
         public AvatarCrateReference[] WhitelistedAvatars;
-        //public bool SaveWeaponsBetweenLevels = false;
-        public bool SaveAmmoBetweenLevels = true;
+
+        [Header("Achievements")]
         public Achievement[] Achievements;
 
+        [Header("Extra Options")]
+        [Tooltip("Specifies whether or not this Campaign will show up in the Campaigns section of Void G114")]
+        public bool ShowCampaignInMenu = true;
+        public bool SaveAmmoBetweenLevels = true;
+        //public bool SaveWeaponsBetweenLevels = false;
+        [Tooltip("When the player enters the campaign from Bonemenu or the Main Menu, they will not be able to leave until they press the Exit Campaign button in their menu")]
+        public bool LockPlayerInCampaign;
+        
+
 #if UNITY_EDITOR
-        [ContextMenu("Add Assets to Addressables")]
+        //[ContextMenu("Add Assets to Addressables")]
         public void AddAssetsToAddressables()
         {
             foreach (Achievement a in Achievements)
@@ -86,6 +104,7 @@ namespace CustomCampaignTools.SDK
                 MainLevels = CrateArrayToBarcodes(MainLevels),
                 ExtraLevels = CrateArrayToBarcodes(ExtraLevels),
                 LoadScene = LoadScene.Barcode.ID,
+                UnlockableLevels = UnlockableLevels,
                 ShowInMenu = ShowCampaignInMenu,
                 RestrictDevTools = RestrictDevTools,
                 AvatarRestrictionType = AvatarRestriction,
@@ -95,6 +114,7 @@ namespace CustomCampaignTools.SDK
                 SaveLevelWeapons = false,//SaveWeaponsBetweenLevels,
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
+                LockInCampaign = LockPlayerInCampaign,
             };
             var settings = new JsonSerializerSettings
             {
@@ -126,6 +146,7 @@ namespace CustomCampaignTools.SDK
         public List<string> MainLevels { get; set; }
         public List<string> ExtraLevels { get; set; }
         public string LoadScene { get; set; }
+        public bool UnlockableLevels { get; set; }
         public bool ShowInMenu { get; set; }
         public bool RestrictDevTools { get; set; }
         public AvatarRestrictionType AvatarRestrictionType { get; set; }
@@ -135,6 +156,7 @@ namespace CustomCampaignTools.SDK
         public bool SaveLevelWeapons { get; set; }
         public bool SaveLevelAmmo { get; set; }
         public List<AchievementData> Achievements { get; set; }
+        public bool LockInCampaign { get; set; }
 
     }
 #endif

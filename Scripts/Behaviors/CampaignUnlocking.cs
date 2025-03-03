@@ -7,5 +7,6 @@ namespace CustomCampaignTools.SDK
     {
         public void UnlockDevTools(bool enableInstantly) { }
         public void UnlockAvatars(bool enableInstantly) { }
+        public void UnlockLevel(string barcode) { }
     }
 }
