@@ -22,14 +22,17 @@ namespace CustomCampaignTools.SDK
         public string Name = "New Campaign";
 
         [Header("Levels")]
+        [Space(10)]
         public LevelCrateReference MainMenu;
         public LevelCrateReference[] MainLevels;
         public LevelCrateReference[] ExtraLevels;
         public LevelCrateReference LoadScene;
+        public MonoDiscReference LoadSceneMusic;
         [Tooltip("If enabled, levels will not show up in the Levels menu until they have been entered, or unlocked via CampaignUnlocking")]
         public bool UnlockableLevels;
 
         [Header("Cheat Restriction (Unlock with CampaignUnlocking)")]
+        [Space(10)]
         public bool RestrictDevTools = false;
         [Tooltip("Support for restricting the avatar during the campaign. \nRestriction type will enforce a single avatar and disable the avatar menu. \nWhitelist will override Restriction and will let the player choose from a whitelist of avatars. \nAvatar Restriction can be bypassed when CampaignUnlocking.UnlockAvatar is called.")]
         public AvatarRestrictionType AvatarRestriction = AvatarRestrictionType.None;
@@ -44,6 +47,7 @@ namespace CustomCampaignTools.SDK
         public Achievement[] Achievements;
 
         [Header("Extra Options")]
+        [Space(10)]
         [Tooltip("Specifies whether or not this Campaign will show up in the Campaigns section of Void G114")]
         public bool ShowCampaignInMenu = true;
         public bool SaveAmmoBetweenLevels = true;
@@ -104,6 +108,7 @@ namespace CustomCampaignTools.SDK
                 MainLevels = CrateArrayToBarcodes(MainLevels),
                 ExtraLevels = CrateArrayToBarcodes(ExtraLevels),
                 LoadScene = LoadScene.Barcode.ID,
+                LoadSceneMusic = LoadSceneMusic.Barcode.ID,
                 UnlockableLevels = UnlockableLevels,
                 ShowInMenu = ShowCampaignInMenu,
                 RestrictDevTools = RestrictDevTools,
@@ -111,7 +116,8 @@ namespace CustomCampaignTools.SDK
                 WhitelistedAvatars = CrateArrayToBarcodes(WhitelistedAvatars),
                 CampaignAvatar = CampaignAvatar.Barcode.ID,
                 BaseGameFallbackAvatar = BaseGameFallbackAvatar.Barcode.ID,
-                SaveLevelWeapons = false,//SaveWeaponsBetweenLevels,
+                SaveLevelWeapons = false,
+                //SaveWeaponsBetweenLevels,
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
                 LockInCampaign = LockPlayerInCampaign,
@@ -146,6 +152,7 @@ namespace CustomCampaignTools.SDK
         public List<string> MainLevels { get; set; }
         public List<string> ExtraLevels { get; set; }
         public string LoadScene { get; set; }
+        public string LoadSceneMusic { get; set; }
         public bool UnlockableLevels { get; set; }
         public bool ShowInMenu { get; set; }
         public bool RestrictDevTools { get; set; }
