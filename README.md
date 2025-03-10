@@ -80,3 +80,6 @@ Usage Info: Used to display all achievements from the current campaign in your l
 ### Achievement Reference Holder
 Usage Info: Used with AchievementDisplay in order to specify which objects to show achievement name, description, and icon on. Call SetupReferences on Awake
 
+### Spawner Despawn Saver
+Usage Info: When Setup with a Crate Spawner, SavePoints will keep track of if the spawnable was Despawned, as well as if the AIBrain was killed. When the save point is saved, all despawned spawnables or killed NPCs with this script will not be spawned in when continuing. Best Practices: Put on all Ammo Boxes and Ammo Dest Boxes to prevent the player from picking up the same ammo twice, and put on all non-encounter NPCs to not respawn them if they have been killed. (Likely to break if used in cratespawners in chunks, make sure its always in the persistent scene.)
+
