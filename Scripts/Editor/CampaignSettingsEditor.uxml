@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Label text="Campaign Settings" display-tooltip-when-elided="true" style="font-size: 20px; padding-top: 20px; padding-bottom: 20px;" />
+    <ui:TextField picking-mode="Ignore" label="Name" value="New Campaign" text="New Campaign" name="Name" binding-path="Name" />
+    <uie:PropertyField name="PalletSelect" binding-path="Pallet" />
+    <ui:Label text="Levels" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
+    <uie:PropertyField name="MainMenu" binding-path="MainMenu" />
+    <uie:PropertyField name="MainLevels" binding-path="MainLevels" />
+    <uie:PropertyField name="ExtraLevels" binding-path="ExtraLevels" />
+    <uie:PropertyField name="LoadScene" binding-path="LoadScene" />
+    <uie:PropertyField name="LoadSceneMusic" binding-path="LoadSceneMusic" />
+    <ui:Label text="Cheat Restriction" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
+    <ui:Toggle label="Unlockable Levels" name="UnlockableLevels" binding-path="UnlockableLevels" />
+    <ui:Toggle label="Restrict Dev Tools" name="RestrictDevTools" binding-path="RestrictDevTools" />
+    <ui:DropdownField label="Avatar Restriction" index="0" choices="None, Restrict Avatar, Avatar Whitelist" name="AvatarRestriction" tabindex="6" />
+    <ui:Toggle label="Disable Bodylog" name="DisableBodyLog" style="display: flex;" />
+    <ui:VisualElement name="RestrictionType-Restrict">
+        <uie:PropertyField name="CampaignAvatar" binding-path="CampaignAvatar" />
+        <uie:PropertyField name="BaseGameFallback" binding-path="BaseGameFallbackAvatar" />
+    </ui:VisualElement>
+    <ui:VisualElement name="RestrictionType-Whitelist">
+        <uie:PropertyField name="WhitelistedAvatars" binding-path="WhitelistedAvatars" />
+    </ui:VisualElement>
+    <ui:Label text="Extra Options" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
+    <uie:PropertyField name="Achievements" binding-path="Achievements" />
+    <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" />
+    <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" />
+    <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" />
+</ui:UXML>
