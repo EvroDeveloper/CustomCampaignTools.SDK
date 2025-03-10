@@ -3,6 +3,7 @@ using UnityEngine;
 using SLZ.Marrow.Warehouse;
 using UltEvents;
 using System.Reflection;
+using UnityEditor;
 
 namespace CustomCampaignTools.SDK
 {
@@ -17,26 +18,27 @@ namespace CustomCampaignTools.SDK
         {
             CrateSpawner spawner = GetComponent<CrateSpawner>();
             var call = spawner.onSpawnEvent.AddPersistentCall((Action<CrateSpawner, GameObject>)Setup);
-            SetArgumentToParameter(call.PersistentArguments[0], 0);
-            SetArgumentToParameter(call.PersistentArguments[1], 1);
-        }
+            SerializedObject serializedObject = new SerializedObject(spawner);
 
-        private void SetArgumentToParameter(PersistentArgument argument, int parameterIndex)
-        {
-            if (argument == null) return;
+            SerializedProperty persistentCallsProp = serializedObject.FindProperty("onSpawnEvent._PersistentCalls");
 
-            // Find and set the "Mode" field to "Parameter"
-            FieldInfo modeField = typeof(PersistentArgument).GetField(nameof(PersistentArgument.Type), BindingFlags.Instance | BindingFlags.NonPublic);
-            if (modeField != null)
+            if (persistentCallsProp.arraySize > 0)
             {
-                modeField.SetValue(argument, PersistentArgumentType.Parameter);
-            }
+                SerializedProperty lastCallProp = persistentCallsProp.GetArrayElementAtIndex(persistentCallsProp.arraySize - 1);
+                SerializedProperty argumentsProp = lastCallProp.FindPropertyRelative("PersistentArguments");
 
-            // Set the ParameterIndex field
-            FieldInfo indexField = typeof(PersistentArgument).GetField(nameof(PersistentArgument.ParameterIndex), BindingFlags.Instance | BindingFlags.Public);
-            if (indexField != null)
-            {
-                indexField.SetValue(argument, parameterIndex);
+                if (argumentsProp != null && argumentsProp.arraySize >= 2)
+                {
+                    // Modify arguments using SerializedProperties
+                    SerializedProperty firstArg = argumentsProp.GetArrayElementAtIndex(0);
+                    SerializedProperty secondArg = argumentsProp.GetArrayElementAtIndex(1);
+
+                    firstArg.FindPropertyRelative("Type").enumValueIndex = (int)PersistentArgumentType.Parameter; // Parameter mode (likely index 2)
+                    firstArg.FindPropertyRelative("ParameterIndex").intValue = 0;
+
+                    secondArg.FindPropertyRelative("Type").enumValueIndex = (int)PersistentArgumentType.Parameter;
+                    secondArg.FindPropertyRelative("ParameterIndex").intValue = 1;
+                }
             }
         }
 #endif
