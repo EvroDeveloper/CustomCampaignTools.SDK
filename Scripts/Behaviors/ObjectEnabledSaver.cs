@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace CustomCampaignTools.SDK
 {
     [AddComponentMenu("CustomCampaignTools/Saving/GameObject Enabled Saver")]
