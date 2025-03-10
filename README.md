@@ -83,3 +83,6 @@ Usage Info: Used with AchievementDisplay in order to specify which objects to sh
 ### Spawner Despawn Saver
 Usage Info: When Setup with a Crate Spawner, SavePoints will keep track of if the spawnable was Despawned, as well as if the AIBrain was killed. When the save point is saved, all despawned spawnables or killed NPCs with this script will not be spawned in when continuing. Best Practices: Put on all Ammo Boxes and Ammo Dest Boxes to prevent the player from picking up the same ammo twice, and put on all non-encounter NPCs to not respawn them if they have been killed. (Likely to break if used in cratespawners in chunks, make sure its always in the persistent scene.)
 
+### GameObject Enabled Saver
+Usage Info: When on any GameObject, this object's active state will be saved when a SavePoint is activated, and will be set appropriately when continuing from that save point. IMPORTANT NOTE: Every instance of this script MUST have a different GameObject name to avoid conflicts.
+
