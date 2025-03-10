@@ -4,6 +4,7 @@ using SLZ.Marrow.Warehouse;
 
 namespace CustomCampaignTools.SDK
 {
+    [AddComponentMenu("CustomCampaignTools/Saving/Spawner Despawn Saver")]
     [RequireComponent(typeof(CrateSpawner))]
     public class SpawnerDespawnSaver : MonoBehaviour
     {

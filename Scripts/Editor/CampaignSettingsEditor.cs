@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using CustomCampaignTools.SDK;
 using Unity.Plastic.Antlr3.Runtime.Tree;
 
-[CustomEditor(typeof(CampaignSettings))]
+//[CustomEditor(typeof(CampaignSettings))]
 public class CampaignSettingsEditor : Editor
 {
     VisualElement Restrict;
