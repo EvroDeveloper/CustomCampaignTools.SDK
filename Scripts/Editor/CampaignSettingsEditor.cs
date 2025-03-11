@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using CustomCampaignTools.SDK;
 using Unity.Plastic.Antlr3.Runtime.Tree;
 
-//[CustomEditor(typeof(CampaignSettings))]
+[CustomEditor(typeof(CampaignSettings))]
 public class CampaignSettingsEditor : Editor
 {
     VisualElement Restrict;
@@ -25,7 +25,7 @@ public class CampaignSettingsEditor : Editor
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(VISUALTREE_PATH);
         VisualElement tree = visualTree.Instantiate();
 
-        DropdownField AvatarRestriction = tree.Q<DropdownField>("PalletSelect");
+        DropdownField AvatarRestriction = tree.Q<DropdownField>("AvatarRestriction");
         AvatarRestriction.RegisterValueChangedCallback(choice => OnRestrictionChoiceChanged(choice.newValue));
 
         Restrict = tree.Q<VisualElement>("RestrictionType-Restrict");
