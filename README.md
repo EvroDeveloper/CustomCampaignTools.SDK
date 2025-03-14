@@ -39,6 +39,8 @@ When making a campaign that supports CustomCampaignTools, it's important to make
 
 **LockPlayerInCampaign** If enabled, entering the campaign through G114 or Bonemenu will "Lock" the player in the campaign. Locked in campaign means that the player's level list will be limited to only the campaign levels, and the only way to exit the campaign is by pressing "Exit Campaign" in the player's option menu. This button will leave the current campaign and take the player back to G114. This will not lock the player if they enter a level through the levels menu, only if officially "entered".
 
+**Campaign Unlockable Crates** A list of crates that are marked as Unlockable in the pallet. Not all have to be included, but when a player resets their save, all of the listed unlockable crates will be re-locked.
+
 **Achievements** Gives you the ability to add your own custom achievements to your campaign. Achievements have the following properties:
  - Key: A unique string that represents the achievement
  - Hidden: Whether or not the description of the Achievement is shown before unlocking.

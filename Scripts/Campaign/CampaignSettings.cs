@@ -54,6 +54,8 @@ namespace CustomCampaignTools.SDK
         //public bool SaveWeaponsBetweenLevels = false;
         [Tooltip("When the player enters the campaign from Bonemenu or the Main Menu, they will not be able to leave until they press the Exit Campaign button in their menu")]
         public bool LockPlayerInCampaign;
+        [Tooltip("When the player resets their CampaignTools save, these crates will get re-locked as well")]
+        public SpawnableCrateReference[] CampaignUnlockCrates { get; set; }
         
 
 #if UNITY_EDITOR
@@ -121,6 +123,7 @@ namespace CustomCampaignTools.SDK
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
                 LockInCampaign = LockPlayerInCampaign,
+                CampaignUnlockCrates = CrateArrayToBarcodes(CampaignUnlockCrates);
             };
             var settings = new JsonSerializerSettings
             {
@@ -164,7 +167,7 @@ namespace CustomCampaignTools.SDK
         public bool SaveLevelAmmo { get; set; }
         public List<AchievementData> Achievements { get; set; }
         public bool LockInCampaign { get; set; }
-
+        public List<string> CampaignUnlockCrates { get; set; }
     }
 #endif
 
