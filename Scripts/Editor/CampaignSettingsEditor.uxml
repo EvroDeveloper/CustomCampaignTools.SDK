@@ -25,4 +25,5 @@
     <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" />
     <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" />
     <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" />
+    <uie:PropertyField binding-path="CampaignUnlockCrates" name="CampaignUnlockables" label="Campaign Unlockables" />
 </ui:UXML>

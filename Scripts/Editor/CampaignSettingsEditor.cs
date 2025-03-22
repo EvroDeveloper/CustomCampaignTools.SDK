@@ -26,7 +26,20 @@ public class CampaignSettingsEditor : Editor
         VisualElement tree = visualTree.Instantiate();
 
         DropdownField AvatarRestriction = tree.Q<DropdownField>("AvatarRestriction");
+
         AvatarRestriction.RegisterValueChangedCallback(choice => OnRestrictionChoiceChanged(choice.newValue));
+
+        if (target.AvatarRestriction == AvatarRestrictionType.None)
+            AvatarRestriction.index = 0;
+        else if (target.AvatarRestriction.HasFlag(AvatarRestrictionType.EnforceWhitelist))
+            AvatarRestriction.index = 2;
+        else if (target.AvatarRestriction.HasFlag(AvatarRestrictionType.RestrictAvatar))
+            AvatarRestriction.index = 1;
+        else
+        {
+            AvatarRestriction.index = 0;
+            target.AvatarRestriction = AvatarRestrictionType.None;
+        }
 
         Restrict = tree.Q<VisualElement>("RestrictionType-Restrict");
         Whitelist = tree.Q<VisualElement>("RestrictionType-Whitelist");
@@ -43,21 +56,21 @@ public class CampaignSettingsEditor : Editor
         {
             case("None"):
                 target.AvatarRestriction = AvatarRestrictionType.None;
-                Restrict.visible = false;
-                Whitelist.visible = false;
-                BodylogToggle.visible = false;
+                Restrict.style.display = DisplayStyle.None;
+                Whitelist.style.display = DisplayStyle.None;
+                BodylogToggle.style.display = DisplayStyle.None;
                 break;
             case ("Restrict Avatar"):
                 target.AvatarRestriction = AvatarRestrictionType.RestrictAvatar;
-                Restrict.visible = true;
-                Whitelist.visible = false;
-                BodylogToggle.visible = true;
+                Restrict.style.display = DisplayStyle.Flex;
+                Whitelist.style.display = DisplayStyle.None;
+                BodylogToggle.style.display = DisplayStyle.Flex;
                 break;
             case ("Avatar Whitelist"):
                 target.AvatarRestriction = AvatarRestrictionType.EnforceWhitelist;
-                Restrict.visible = false;
-                Whitelist.visible = true;
-                BodylogToggle.visible = true;
+                Restrict.style.display = DisplayStyle.None;
+                Whitelist.style.display = DisplayStyle.Flex;
+                BodylogToggle.style.display = DisplayStyle.Flex;
                 break;
         }
     }
