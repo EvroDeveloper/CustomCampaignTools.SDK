@@ -20,9 +20,9 @@ namespace CustomCampaignTools.SDK
             var call = spawner.onSpawnEvent.AddPersistentCall((Action<CrateSpawner, GameObject>)Setup);
 
             typeof(PersistentArgument).GetField("_Type", UltEventUtils.AnyAccessBindings).SetValue(call.PersistentArguments[0], PersistentArgumentType.Parameter);
-            call.PersistentArguments[0].Int = 0;
+            call.PersistentArguments[0].ParameterIndex = 0;
             typeof(PersistentArgument).GetField("_Type", UltEventUtils.AnyAccessBindings).SetValue(call.PersistentArguments[1], PersistentArgumentType.Parameter);
-            call.PersistentArguments[1].Int = 1;
+            call.PersistentArguments[1].ParameterIndex = 1;
         }
 #endif
     }
