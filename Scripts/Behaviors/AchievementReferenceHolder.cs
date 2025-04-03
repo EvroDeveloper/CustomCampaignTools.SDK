@@ -7,6 +7,8 @@ namespace CustomCampaignTools.SDK
     [AddComponentMenu("CustomCampaignTools/Achievements/Achievement Reference Holder")]
     public class AchievementReferenceHolder : MonoBehaviour
     {
-        public void SetReferences(Image img, TMP_Text title, TMP_Text description) { }
+        public Image achievementIcon;
+        public TMP_Text titleTMP;
+        public TMP_Text descriptionTMP;
     }
 }
