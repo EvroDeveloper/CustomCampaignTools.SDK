@@ -15,6 +15,22 @@ using UnityEditor;
 
 namespace CustomCampaignTools.SDK
 {
+    [Serializable]
+    public struct LevelSetup
+    {
+        public LevelCrateReference levelCrate;
+        public string levelName;
+
+        public SerializedLevelSetup Serialize()
+        {
+            return new SerializedLevelSetup()
+            {
+                levelBarcode = this.levelCrate.Barcode.ID;
+                levelName = this.levelName;
+            }
+        }
+    }
+
     [CreateAssetMenu(fileName = "New Campaign.asset", menuName = "Custom Campaign Tools/Campaign Settings", order = 1)]
     public class CampaignSettings : ScriptableObject
     {
@@ -23,9 +39,9 @@ namespace CustomCampaignTools.SDK
 
         [Header("Levels")]
         [Space(10)]
-        public LevelCrateReference MainMenu;
-        public LevelCrateReference[] MainLevels;
-        public LevelCrateReference[] ExtraLevels;
+        public LevelSetup MainMenu;
+        public LevelSetup[] MainLevels;
+        public LevelSetup[] ExtraLevels;
         public LevelCrateReference LoadScene;
         public MonoDiscReference LoadSceneMusic;
         [Tooltip("If enabled, levels will not show up in the Levels menu until they have been entered, or unlocked via CampaignUnlocking")]
@@ -106,9 +122,9 @@ namespace CustomCampaignTools.SDK
             var data = new CampaignLoadingData()
             {
                 Name = Name,
-                InitialLevel = MainMenu.Barcode.ID,
-                MainLevels = CrateArrayToBarcodes(MainLevels),
-                ExtraLevels = CrateArrayToBarcodes(ExtraLevels),
+                InitialLevel = MainMenu.Serialize(),
+                MainLevels = SerializedLevelSetup(MainLevels),
+                ExtraLevels = SerializedLevelSetup(ExtraLevels),
                 LoadScene = LoadScene.Barcode.ID,
                 LoadSceneMusic = LoadSceneMusic.Barcode.ID,
                 UnlockableLevels = UnlockableLevels,
@@ -145,15 +161,25 @@ namespace CustomCampaignTools.SDK
             }
             return barcodes;
         }
+
+        private List<SerializedLevelSetup> SerializeLevelArray(LevelSetup[] input)
+        {
+            List<SerializedLevelSetup> putput = new List<SerializedLevelSetup>();
+            foreach(LevelSetup level in input)
+            {
+                putput.Add(level.Serialize());
+            }
+            return putput;
+        }
 #endif
     }
 #if UNITY_EDITOR
     internal class CampaignLoadingData
     {
         public string Name { get; set; }
-        public string InitialLevel { get; set; }
-        public List<string> MainLevels { get; set; }
-        public List<string> ExtraLevels { get; set; }
+        public SerializedLevelSetup InitialLevel { get; set; }
+        public List<SerializedLevelSetup> MainLevels { get; set; }
+        public List<SerializedLevelSetup> ExtraLevels { get; set; }
         public string LoadScene { get; set; }
         public string LoadSceneMusic { get; set; }
         public bool UnlockableLevels { get; set; }
@@ -168,6 +194,13 @@ namespace CustomCampaignTools.SDK
         public List<AchievementData> Achievements { get; set; }
         public bool LockInCampaign { get; set; }
         public List<string> CampaignUnlockCrates { get; set; }
+    }
+
+
+    internal class SerializedLevelSetup
+    {
+        public string levelBarcode;
+        public string levelName;
     }
 #endif
 
