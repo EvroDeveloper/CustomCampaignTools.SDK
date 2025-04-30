@@ -21,13 +21,13 @@ namespace CustomCampaignTools.SDK
         public LevelCrateReference levelCrate;
         public string levelName;
 
-        public SerializedLevelSetup Serialize()
+        internal SerializedLevelSetup Serialize()
         {
             return new SerializedLevelSetup()
             {
-                levelBarcode = this.levelCrate.Barcode.ID;
-                levelName = this.levelName;
-            }
+                levelBarcode = this.levelCrate.Barcode.ID,
+                levelName = this.levelName,
+            };
         }
     }
 
@@ -123,8 +123,8 @@ namespace CustomCampaignTools.SDK
             {
                 Name = Name,
                 InitialLevel = MainMenu.Serialize(),
-                MainLevels = SerializedLevelSetup(MainLevels),
-                ExtraLevels = SerializedLevelSetup(ExtraLevels),
+                MainLevels = SerializeLevelArray(MainLevels),
+                ExtraLevels = SerializeLevelArray(ExtraLevels),
                 LoadScene = LoadScene.Barcode.ID,
                 LoadSceneMusic = LoadSceneMusic.Barcode.ID,
                 UnlockableLevels = UnlockableLevels,
