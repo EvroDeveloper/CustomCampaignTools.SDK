@@ -6,5 +6,7 @@ namespace CustomCampaignTools.SDK
     public class SavePoint : MonoBehaviour
     {
         public void Save() { }
+
+        public void ClearSave() { }
     }
 }
