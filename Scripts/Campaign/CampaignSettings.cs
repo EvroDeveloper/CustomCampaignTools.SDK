@@ -67,7 +67,8 @@ namespace CustomCampaignTools.SDK
         [Tooltip("Specifies whether or not this Campaign will show up in the Campaigns section of Void G114")]
         public bool ShowCampaignInMenu = true;
         public bool SaveAmmoBetweenLevels = true;
-        //public bool SaveWeaponsBetweenLevels = false;
+        public bool SaveInventoryBetweenLevels = false;
+        public SpawnableCrateReference[] SaveInventoryFilter;
         [Tooltip("When the player enters the campaign from Bonemenu or the Main Menu, they will not be able to leave until they press the Exit Campaign button in their menu")]
         public bool LockPlayerInCampaign;
         [Tooltip("When the player resets their CampaignTools save, these crates will get re-locked as well")]
@@ -134,8 +135,8 @@ namespace CustomCampaignTools.SDK
                 WhitelistedAvatars = CrateArrayToBarcodes(WhitelistedAvatars),
                 CampaignAvatar = CampaignAvatar.Barcode.ID,
                 BaseGameFallbackAvatar = BaseGameFallbackAvatar.Barcode.ID,
-                SaveLevelWeapons = false,
-                //SaveWeaponsBetweenLevels,
+                SaveLevelWeapons = SaveInventoryBetweenLevels,
+                InventorySaveLimit = CrateArrayToBarcodes(SaveInventoryFilter),
                 SaveLevelAmmo = SaveAmmoBetweenLevels,
                 Achievements = Achievements.ToData(),
                 LockInCampaign = LockPlayerInCampaign,
@@ -190,6 +191,7 @@ namespace CustomCampaignTools.SDK
         public string BaseGameFallbackAvatar { get; set; }
         public List<string> WhitelistedAvatars { get; set; }
         public bool SaveLevelWeapons { get; set; }
+        public List<string> InventorySaveLimit { get; set; }
         public bool SaveLevelAmmo { get; set; }
         public List<AchievementData> Achievements { get; set; }
         public bool LockInCampaign { get; set; }

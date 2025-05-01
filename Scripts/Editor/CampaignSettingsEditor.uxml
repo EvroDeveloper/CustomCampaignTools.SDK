@@ -24,6 +24,8 @@
     <uie:PropertyField name="Achievements" binding-path="Achievements" />
     <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" />
     <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" />
+    <ui:Toggle label="Save Level Inventory" name="SaveInventory" binding-path="SaveInventoryBetweenLevels" />
+    <uie:PropertyField binding-path="SaveInventoryFilter" name="SaveInventoryFilter" label="Inventory Save Filter" />
     <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" />
     <uie:PropertyField binding-path="CampaignUnlockCrates" name="CampaignUnlockables" label="Campaign Unlockables" />
     <ui:VisualElement style="align-items: center; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
