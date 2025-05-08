@@ -20,7 +20,7 @@ namespace CustomCampaignTools.SDK
     {
         public LevelCrateReference levelCrate;
         public string levelName;
-
+#if UNITY_EDITOR
         internal SerializedLevelSetup Serialize()
         {
             return new SerializedLevelSetup()
@@ -29,6 +29,7 @@ namespace CustomCampaignTools.SDK
                 levelName = this.levelName,
             };
         }
+#endif
     }
 
     [CreateAssetMenu(fileName = "New Campaign.asset", menuName = "Custom Campaign Tools/Campaign Settings", order = 1)]
