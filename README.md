@@ -11,7 +11,7 @@ When making a campaign that supports CustomCampaignTools, it's important to make
 
 **Pallet:** The pallet that it should save the json to.
 
-**MainMenu:** The initial level that will be loaded when selecting a campaign.
+**MainMenu:** The initial level that will be loaded when selecting a campaign. Includes an optional name override for a context-specific name. For example: Boneworks01_Breakroom (level) with a name override of "Breakroom" This is used for specific cases with BrowsingPlus by Swipez.
 
 **MainLevels:** Which levels are the "Main" campaign levels. These levels will have their ammo saved
 
