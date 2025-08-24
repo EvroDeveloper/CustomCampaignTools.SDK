@@ -1,10 +1,12 @@
 # Custom Campaign Tools SDK
 A set of scripts to allow BoneLab modders to integrate Campaign features into their campaign mod.
 
-## Important Notes
-All script methods MUST be invoked from an UltEvent. If you call methods on custom scripts from a default Unity Event, your game WILL CRASH. If you need to invoke something from a unity event, have it go through an UltEventHolder invoked by the Unity Event.
+## Quick Start Guide
+After installing the CustomCampaignTools SDK, you will want to create a Campaign Settings asset for your pallet. Right click in your Assets, and find "Custom Campaign Tools/Campaign Settings" to create a new CampaignSettings. Fill out all of the applicable options as shown in the **Campaign Options** section of this document. 
 
-When making a campaign that supports CustomCampaignTools, it's important to make sure that most things work without the mod installed. If something relies too heavily on the mod (not recommended) you should include a disclaimer for the player in-game. 
+To build your CampaignSettings with your mod, first make a build of your mod. Once it is done, head back to your campaign settings and click the "Export Json" button at the bottom, then install your mod. If all went correctly, your mod should now be registered by CustomCampaignTools.
+
+You are now free to make use of all the additional scripts for unlocking and more, as shown in the **Scripts Usage** Info section
 
 ## Campaign Options
 **Name:** What name to show when selecting a campaign
@@ -50,6 +52,11 @@ When making a campaign that supports CustomCampaignTools, it's important to make
 
 
 ## Scripts Usage Info
+
+### Important Notes
+All script methods MUST be invoked from an UltEvent. If you call methods on custom scripts from a default Unity Event, your game WILL CRASH. If you need to invoke something from a unity event, have it go through an UltEventHolder invoked by the Unity Event.
+
+When making a campaign that supports CustomCampaignTools, it's important to make sure that most things work without the mod installed. If something relies too heavily on the mod (not recommended) you should include a disclaimer for the player in-game. 
 
 ### Ammo Score Display
 Usage Info: Used on a TextMeshPro component, call the SetTargetBarcode method from an UltEvent to setup the correct barcode. It will then display the saved ammo high score from that specific level.
