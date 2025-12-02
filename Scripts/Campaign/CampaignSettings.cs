@@ -7,6 +7,7 @@ using System.Linq;
 using SLZ.MarrowEditor;
 using SLZ.MLAgents;
 using System.IO;
+using System.ComponentModel;
 #if UNITY_EDITOR
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets;
@@ -40,6 +41,7 @@ namespace CustomCampaignTools.SDK
 
         [Header("Levels")]
         [Space(10)]
+        public LevelSetup IntroLevel;
         public LevelSetup MainMenu;
         public LevelSetup[] MainLevels;
         public LevelSetup[] ExtraLevels;
@@ -61,26 +63,34 @@ namespace CustomCampaignTools.SDK
         public AvatarCrateReference[] WhitelistedAvatars;
 
         [Header("Achievements")]
-        public Achievement[] Achievements;
+        public DataCardReference<MonoDisc> AchievementUnlockSound;
+        public SerializableAchievement[] Achievements;
 
         [Header("Extra Options")]
         [Space(10)]
         [Tooltip("Specifies whether or not this Campaign will show up in the Campaigns section of Void G114")]
         public bool ShowCampaignInMenu = true;
+        [Tooltip("If true, this campaign will be prioritized and shown at the top of the player's level panel when in the campaign")]
+        public bool PrioritizeInLevelPanel = true;
         public bool SaveAmmoBetweenLevels = true;
         public bool SaveInventoryBetweenLevels = false;
+        [Tooltip("If Save Inventory Between Levels is enabled, only these items will be saved. If empty, all items will be saved.")]
         public SpawnableCrateReference[] SaveInventoryFilter;
         [Tooltip("When the player enters the campaign from Bonemenu or the Main Menu, they will not be able to leave until they press the Exit Campaign button in their menu")]
         public bool LockPlayerInCampaign;
         [Tooltip("When the player resets their CampaignTools save, these crates will get re-locked as well")]
         public SpawnableCrateReference[] CampaignUnlockCrates;
+        [Tooltip("These spawnables will NOT be unlockable through the Gachapon machine in G114")]
+        public SpawnableCrateReference[] HideCratesFromGachapon;
+        [Tooltip("If this is a development build, enabling this will allow you to access dev menu in bonemenu for testing")]
+        public bool DevBuild = false;
         
 
 #if UNITY_EDITOR
         //[ContextMenu("Add Assets to Addressables")]
         public void AddAssetsToAddressables()
         {
-            foreach (Achievement a in Achievements)
+            foreach (SerializableAchievement a in Achievements)
             {
                 AddTextureToAddressables(a.Icon);
             }
@@ -121,28 +131,14 @@ namespace CustomCampaignTools.SDK
         [ContextMenu("Save Json")]
         public void SaveCampaignJson()
         {
-            var data = new CampaignLoadingData()
+            if (Pallet == null)
             {
-                Name = Name,
-                InitialLevel = MainMenu.Serialize(),
-                MainLevels = SerializeLevelArray(MainLevels),
-                ExtraLevels = SerializeLevelArray(ExtraLevels),
-                LoadScene = LoadScene.Barcode.ID,
-                LoadSceneMusic = LoadSceneMusic.Barcode.ID,
-                UnlockableLevels = UnlockableLevels,
-                ShowInMenu = ShowCampaignInMenu,
-                RestrictDevTools = RestrictDevTools,
-                AvatarRestrictionType = AvatarRestriction,
-                WhitelistedAvatars = CrateArrayToBarcodes(WhitelistedAvatars),
-                CampaignAvatar = CampaignAvatar.Barcode.ID,
-                BaseGameFallbackAvatar = BaseGameFallbackAvatar.Barcode.ID,
-                SaveLevelWeapons = SaveInventoryBetweenLevels,
-                InventorySaveLimit = CrateArrayToBarcodes(SaveInventoryFilter),
-                SaveLevelAmmo = SaveAmmoBetweenLevels,
-                Achievements = Achievements.ToData(),
-                LockInCampaign = LockPlayerInCampaign,
-                CampaignUnlockCrates = CrateArrayToBarcodes(CampaignUnlockCrates),
-            };
+                Debug.LogError("No pallet assigned to CampaignSettings. Please assign a pallet before saving the campaign JSON.");
+                return;
+            }
+
+            var data = CampaignLoadingData.CopyFrom(this);
+
             var settings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
@@ -154,7 +150,7 @@ namespace CustomCampaignTools.SDK
         }
 
 
-        private List<string> CrateArrayToBarcodes(ScannableReference[] levelCrateReferences)
+        public static List<string> CrateArrayToBarcodes(ScannableReference[] levelCrateReferences)
         {
             List<string> barcodes = new List<string>();
             foreach(ScannableReference re in levelCrateReferences)
@@ -163,49 +159,8 @@ namespace CustomCampaignTools.SDK
             }
             return barcodes;
         }
-
-        private List<SerializedLevelSetup> SerializeLevelArray(LevelSetup[] input)
-        {
-            List<SerializedLevelSetup> putput = new List<SerializedLevelSetup>();
-            foreach(LevelSetup level in input)
-            {
-                putput.Add(level.Serialize());
-            }
-            return putput;
-        }
 #endif
     }
-#if UNITY_EDITOR
-    internal class CampaignLoadingData
-    {
-        public string Name { get; set; }
-        public SerializedLevelSetup InitialLevel { get; set; }
-        public List<SerializedLevelSetup> MainLevels { get; set; }
-        public List<SerializedLevelSetup> ExtraLevels { get; set; }
-        public string LoadScene { get; set; }
-        public string LoadSceneMusic { get; set; }
-        public bool UnlockableLevels { get; set; }
-        public bool ShowInMenu { get; set; }
-        public bool RestrictDevTools { get; set; }
-        public AvatarRestrictionType AvatarRestrictionType { get; set; }
-        public string CampaignAvatar { get; set; }
-        public string BaseGameFallbackAvatar { get; set; }
-        public List<string> WhitelistedAvatars { get; set; }
-        public bool SaveLevelWeapons { get; set; }
-        public List<string> InventorySaveLimit { get; set; }
-        public bool SaveLevelAmmo { get; set; }
-        public List<AchievementData> Achievements { get; set; }
-        public bool LockInCampaign { get; set; }
-        public List<string> CampaignUnlockCrates { get; set; }
-    }
-
-
-    internal class SerializedLevelSetup
-    {
-        public string levelBarcode;
-        public string levelName;
-    }
-#endif
 
     [Flags]
     public enum AvatarRestrictionType
@@ -217,7 +172,7 @@ namespace CustomCampaignTools.SDK
     }
 
     [Serializable]
-    public struct Achievement
+    public struct SerializableAchievement
     {
         public string Key;
         public bool Hidden;
@@ -231,9 +186,9 @@ namespace CustomCampaignTools.SDK
             byte[] IconBytes = new byte[0];
 
             string path = AssetDatabase.GUIDToAssetPath(Icon.AssetGUID);
-            if(File.Exists(path))
+            if (File.Exists(path))
                 IconBytes = File.ReadAllBytes(path);
-            
+
             return new AchievementData()
             {
                 Key = Key,
@@ -243,13 +198,8 @@ namespace CustomCampaignTools.SDK
                 Description = Description,
             };
         }
-#endif
-    }
-
-#if UNITY_EDITOR
-    public static class AchievementArrayExtensions
-    {
-        public static List<AchievementData> ToData(this Achievement[] achievements)
+        
+        public static List<AchievementData> ConvertToData(SerializableAchievement[] achievements)
         {
             var list = new List<AchievementData>();
             foreach (var achievement in achievements)
@@ -258,6 +208,7 @@ namespace CustomCampaignTools.SDK
             }
             return list;
         }
+#endif
     }
 
     public struct AchievementData
@@ -265,8 +216,8 @@ namespace CustomCampaignTools.SDK
         public string Key { get; set; }
         public bool Hidden { get; set; }
         public byte[] IconBytes { get; set; }
+        public string IconGUID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }
-#endif
 }

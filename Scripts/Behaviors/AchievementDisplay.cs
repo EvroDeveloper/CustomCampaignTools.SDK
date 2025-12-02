@@ -1,5 +1,6 @@
-using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace CustomCampaignTools.SDK
@@ -11,7 +12,24 @@ namespace CustomCampaignTools.SDK
         public Button backButton;
         public TMP_Text pageText;
         public TMP_Text unlockCount;
-        
-        public void Activate() { }
+
+        public void Awake()
+        {
+        }
+
+        public void Activate()
+        {
+        }
+
+        public void NextPage()
+        {
+        }
+        public void PrevPage()
+        {
+        }
+
+        public void SetUnlockTextFormat(string format)
+        {
+        }
     }
 }

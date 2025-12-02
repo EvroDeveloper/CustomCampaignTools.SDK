@@ -3,6 +3,7 @@
     <ui:TextField picking-mode="Ignore" label="Name" value="New Campaign" text="New Campaign" name="Name" binding-path="Name" />
     <uie:PropertyField name="PalletSelect" binding-path="Pallet" />
     <ui:Label text="Levels" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
+    <uie:PropertyField name="IntroLevel" binding-path="IntroLevel" />
     <uie:PropertyField name="MainMenu" binding-path="MainMenu" />
     <uie:PropertyField name="MainLevels" binding-path="MainLevels" />
     <uie:PropertyField name="ExtraLevels" binding-path="ExtraLevels" />
@@ -21,13 +22,17 @@
         <uie:PropertyField name="WhitelistedAvatars" binding-path="WhitelistedAvatars" />
     </ui:VisualElement>
     <ui:Label text="Extra Options" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
+    <uie:PropertyField name="AchievementUnlockSound" binding-path="AchievementUnlockSound" />
     <uie:PropertyField name="Achievements" binding-path="Achievements" />
     <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" />
+    <ui:Toggle label="Prioritize in Level Panel" name="PrioritizeInPanel" binding-path="PrioritizeInLevelPanel" />
     <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" />
     <ui:Toggle label="Save Level Inventory" name="SaveInventory" binding-path="SaveInventoryBetweenLevels" />
     <uie:PropertyField binding-path="SaveInventoryFilter" name="SaveInventoryFilter" label="Inventory Save Filter" />
     <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" />
     <uie:PropertyField binding-path="CampaignUnlockCrates" name="CampaignUnlockables" label="Campaign Unlockables" />
+    <uie:PropertyField binding-path="HideCratesFromGachapon" name="HideCratesFromGachapon" label="Hide Crates from Gachapon" />
+    <ui:Toggle label="Dev Build" name="DevBuild" binding-path="DevBuild" />
     <ui:VisualElement style="align-items: center; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
         <ui:Button text="Export JSON to Pallet" display-tooltip-when-elided="true" name="ExportButton" style="padding-top: 5px; padding-bottom: 5px; width: 50%; align-items: stretch;" />
     </ui:VisualElement>

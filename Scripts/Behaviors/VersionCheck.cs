@@ -1,8 +1,10 @@
-using UnityEngine;
 using UltEvents;
+using UnityEngine;
+using System;
 
 namespace CustomCampaignTools.SDK
 {
+    [AddComponentMenu("CustomCampaignTools/UltEvent Utilities/Version Check")]
     public class VersionCheck : MonoBehaviour
     {
 

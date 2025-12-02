@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Foldout text="Usage Info" name="UsageInfo" value="false">
+        <ui:Label text="Invokes the UltEventHolder on this GameObject on Awake" display-tooltip-when-elided="true" style="white-space: normal;" />
+    </ui:Foldout>
+</ui:UXML>

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CustomCampaignTools.SDK
@@ -5,8 +6,28 @@ namespace CustomCampaignTools.SDK
     [AddComponentMenu("CustomCampaignTools/UltEvent Utilities/Campaign Unlocking")]
     public class CampaignUnlocking : MonoBehaviour
     {
-        public void UnlockDevTools(bool enableInstantly) { }
-        public void UnlockAvatars(bool enableInstantly) { }
-        public void UnlockLevel(string barcode) { }
+        public void UnlockDevTools(bool enableInstantly)
+        {
+        }
+
+        public void UnlockAvatars(bool enableInstantly)
+        {
+        }
+
+        public void UnlockLevel(string barcode)
+        {
+        }
+
+        public void SetIntroSkip(bool skipIntro)
+        {
+        }
+
+        public void ResetSave()
+        {
+        }
+
+        public void UNLOCKALL()
+        {
+        }
     }
 }

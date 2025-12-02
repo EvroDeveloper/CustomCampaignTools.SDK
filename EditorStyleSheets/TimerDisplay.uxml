@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Foldout text="Usage Info" name="UsageInfo" value="false">
+        <ui:Label text="Displays a Timer on a TextMeshPro&#10;&#10;TotalCampaignTime displays the total time spent in the campaign&#10;LevelTime displays the time spent in a specific level. Barcode needs to be set by calling SetTargetLevel in an Awake event&#10;TrialTime displays the time of a specific Trial that has been recorded. Call SetTargetTrial on Awake to set the trial.&#10;Trial Times can be displayed as either the Best, Average or Previous Time." display-tooltip-when-elided="true" style="white-space: normal;" />
+    </ui:Foldout>
+    <ui:VisualElement style="height: 10px;" />
+    <uie:PropertyField binding-path="textDisplay" name="textDisplay" />
+    <uie:PropertyField binding-path="displayType" name="displayType" />
+    <uie:PropertyField name="trialDisplayType" binding-path="trialDisplayType" />
+    <uie:PropertyField binding-path="alwaysUpdate" name="alwaysUpdate" />
+    <uie:PropertyField binding-path="displayHours" name="displayHours" />
+    <uie:PropertyField binding-path="displayMinutes" name="displayMinutes" />
+    <uie:PropertyField binding-path="displaySeconds" name="displaySeconds" />
+    <uie:PropertyField binding-path="displayMilliseconds" name="displayMilliseconds" />
+    <uie:PropertyField binding-path="millisecondsDepth" name="millisecondsDepth" />
+</ui:UXML>

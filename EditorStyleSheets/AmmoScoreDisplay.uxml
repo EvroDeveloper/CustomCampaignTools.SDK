@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Foldout text="Usage Info" name="UsageInfo" value="false">
+        <ui:Label text="Displays the Ammo Highscore of the target Level&#10;&#10;To set up, call the SetTargetBarcode() method from a Life Cycle Events.&#10;If no Text is set, it will use a TextMeshPro on the current GameObject" display-tooltip-when-elided="true" style="white-space: normal;" />
+    </ui:Foldout>
+    <ui:VisualElement style="height: 10px;" />
+    <uie:PropertyField binding-path="textMeshPro" label="Text" />
+</ui:UXML>

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Foldout text="Usage Info" name="UsageInfo" value="false">
+        <ui:Label text="Used for saving the position and inventory of the player. &#10;&#10;Invoke the Save method from an UltEvent, and the player will be saved at the position of this GameObject.&#10;&#10;The ClearSave method will clear the player&apos;s current save point.&#10;&#10;Optional functionality exists for a entity saving zone, similar to the savepoints in Boneworks. If the Entity Save Zone is set, any spawned entities inside this volume are also saved, and will be restored when continuing." display-tooltip-when-elided="true" style="white-space: normal;" />
+    </ui:Foldout>
+    <ui:VisualElement style="height: 10px;" />
+    <uie:PropertyField binding-path="playerSpawnPoint" />
+    <uie:PropertyField binding-path="entitySaveZone" />
+</ui:UXML>

@@ -1,9 +1,10 @@
-using System;
-using UnityEngine;
 using SLZ.Marrow.Warehouse;
 using UltEvents;
-using System.Reflection;
+using System;
+using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace CustomCampaignTools.SDK
 {
@@ -11,10 +12,12 @@ namespace CustomCampaignTools.SDK
     [RequireComponent(typeof(CrateSpawner))]
     public class SpawnerDespawnSaver : MonoBehaviour
     {
-        public void Setup(CrateSpawner c, GameObject g) { }
+        public void Setup(CrateSpawner c, GameObject g)
+        {
+        }
 
 #if UNITY_EDITOR
-        void Reset()
+        public void Reset()
         {
             CrateSpawner spawner = GetComponent<CrateSpawner>();
             var call = spawner.onSpawnEvent.AddPersistentCall((Action<CrateSpawner, GameObject>)Setup);
