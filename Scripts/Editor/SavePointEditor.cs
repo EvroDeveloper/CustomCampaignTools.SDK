@@ -23,5 +23,17 @@ namespace CustomCampaignTools.SDK.Editor
 
             return root;
         }
+
+        [DrawGizmo(GizmoType.Selected)]
+        public static void OnDrawGizmosSelected(SavePoint target, GizmoType gizmoType)
+        {
+            Gizmos.color = new Color(0f, 1f, 0f, 0.3f);
+            Gizmos.DrawMesh(SLZ.Marrow.MarrowSDK.GenericHumanMesh, target.playerSpawnPoint.position, target.playerSpawnPoint.rotation);
+
+            Matrix4x4 originalMatrix = Gizmos.matrix;
+            Gizmos.matrix = target.entitySaveZone.transform.localToWorldMatrix;
+            Gizmos.DrawCube(target.entitySaveZone.center, target.entitySaveZone.size);
+            Gizmos.matrix = originalMatrix;
+        }
     }
 }

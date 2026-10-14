@@ -1,33 +1,99 @@
+#if MELONLOADER
+using MelonLoader;
+using Il2CppSLZ.Marrow.Interaction;
+using Il2CppSLZ.Marrow.Warehouse;
+#else
+using SLZ.Marrow.Interaction;
+#endif
 using System;
 using UnityEngine;
 
 namespace CustomCampaignTools.SDK
 {
+#if MELONLOADER
+    [RegisterTypeInIl2Cpp]
+#else
     [AddComponentMenu("CustomCampaignTools/UltEvent Utilities/Campaign Unlocking")]
+#endif
     public class CampaignUnlocking : MonoBehaviour
     {
+#if MELONLOADER
+        public CampaignUnlocking(IntPtr ptr) : base(ptr) { }
+#endif
         public void UnlockDevTools(bool enableInstantly)
         {
+#if MELONLOADER
+            Campaign.Session.saveData.UnlockDevTools();
+
+            if(enableInstantly)
+            {
+                // UIRig.Instance.popUpMenu.AddDevMenu(null);
+            }
+#endif
         }
 
         public void UnlockAvatars(bool enableInstantly)
         {
+#if MELONLOADER
+            Campaign.Session.saveData.UnlockAvatar();
+
+            if(!enableInstantly) return;
+
+            // Haha no FUCK YOU and your todo, im just going to harmony patch this method from the bonelab support :onlyforgenius:
+
+            // // TODO: Create an interface that can allow the loaded game configuration to hook into when its enabled instantly.
+            // // PullCordDevice bodyLog = Player.PhysicsRig.GetComponentInChildren<PullCordDevice>(true);
+            // // bodyLog?.gameObject.SetActive(true);
+            // 
+            // // UIRig.Instance.popUpMenu.AddAvatarsMenu();
+#endif
         }
 
         public void UnlockLevel(string barcode)
         {
+#if MELONLOADER
+            Campaign.Session.saveData.UnlockLevel(barcode);
+#endif
+        }
+
+        public void UnlockSpawnable(string barcode)
+        {
+#if MELONLOADER
+            Campaign.Session.saveData.UnlockSpawnable(new Barcode(barcode));
+#endif
+        }
+
+        public void UnlockSpawnable(MarrowEntity entity)
+        {
+#if MELONLOADER
+            Campaign.Session.saveData.UnlockSpawnable(entity);
+#endif
         }
 
         public void SetIntroSkip(bool skipIntro)
         {
+#if MELONLOADER
+            Campaign.Session.saveData.SkipIntro = skipIntro;
+#endif
         }
 
         public void ResetSave()
         {
+#if MELONLOADER
+            Campaign.Session.saveData.ResetSave();
+#endif
         }
 
         public void UNLOCKALL()
         {
+#if MELONLOADER
+            UnlockDevTools(true);
+            UnlockAvatars(true);
+            foreach (var level in Campaign.Session.AllLevels)
+            {
+                UnlockLevel(level.BarcodeString);
+            }
+#endif
         }
     }
 }

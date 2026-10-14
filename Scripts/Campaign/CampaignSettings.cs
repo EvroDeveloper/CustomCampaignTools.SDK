@@ -8,6 +8,8 @@ using SLZ.MarrowEditor;
 using SLZ.MLAgents;
 using System.IO;
 using System.ComponentModel;
+using CustomCampaignTools;
+using SimpleSerializables.Types;
 #if UNITY_EDITOR
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets;
@@ -26,11 +28,17 @@ namespace CustomCampaignTools.SDK
         {
             return new SerializedLevelSetup()
             {
-                levelBarcode = this.levelCrate.Barcode.ID,
+                levelBarcode = new(this.levelCrate),
                 levelName = this.levelName,
             };
         }
 #endif
+        public override string ToString()
+        {
+            if(!string.IsNullOrEmpty(levelName)) return levelName;
+            if(levelCrate.IsValid()) return levelCrate.Crate.Title;
+            return base.ToString();
+        }
     }
 
     [CreateAssetMenu(fileName = "New Campaign.asset", menuName = "Custom Campaign Tools/Campaign Settings", order = 1)]
@@ -41,6 +49,7 @@ namespace CustomCampaignTools.SDK
 
         [Header("Levels")]
         [Space(10)]
+        [Tooltip("Not Required. Serves as a skippable Intro Level, and functions like Scene Intro Start from Boneworks")]
         public LevelSetup IntroLevel;
         public LevelSetup MainMenu;
         public LevelSetup[] MainLevels;
@@ -55,6 +64,8 @@ namespace CustomCampaignTools.SDK
         public bool RestrictDevTools = false;
         [Tooltip("Support for restricting the avatar during the campaign. \nRestriction type will enforce a single avatar and disable the avatar menu. \nWhitelist will override Restriction and will let the player choose from a whitelist of avatars. \nAvatar Restriction can be bypassed when CampaignUnlocking.UnlockAvatar is called.")]
         public AvatarRestrictionType AvatarRestriction = AvatarRestrictionType.None;
+        [Tooltip("Disable the bodylog while the avatar is restricted. Requires a type of AvatarRestriction")]
+        public bool DisableBodyLog;
         [Tooltip("The default avatar to use in the campaign. Can be from an optional mod")]
         public AvatarCrateReference CampaignAvatar;
         [Tooltip("A fallback base-game avatar if the player does not have Campaign Avatar installed (in the case of a modded avatar)")]
@@ -62,9 +73,16 @@ namespace CustomCampaignTools.SDK
         [Tooltip("If Avatar Restriction is set to Whitelist, these will be allowed")]
         public AvatarCrateReference[] WhitelistedAvatars;
 
+        [Tooltip("Valid range of Avatar Heights to be allowed")]
+        public Vector2 AvatarHeightRange;
+        [Tooltip("Valid range of Avatar Mass to be allowed")]
+        public Vector2 AvatarMassRange;
+        [Tooltip("Valid range of Avatar Arm Length to be allowed")]
+        public Vector2 AvatarArmRange;
+
         [Header("Achievements")]
-        public DataCardReference<MonoDisc> AchievementUnlockSound;
-        public SerializableAchievement[] Achievements;
+        public MonoDiscReference AchievementUnlockSound;
+        public AchievementData[] Achievements;
 
         [Header("Extra Options")]
         [Space(10)]
@@ -76,21 +94,38 @@ namespace CustomCampaignTools.SDK
         public bool SaveInventoryBetweenLevels = false;
         [Tooltip("If Save Inventory Between Levels is enabled, only these items will be saved. If empty, all items will be saved.")]
         public SpawnableCrateReference[] SaveInventoryFilter;
+        [Tooltip("If Enabled, entering any Main level will create a new save at that level, overwriting the previous one")]
+        public bool UpdateSaveOnLevelEnter = true;
         [Tooltip("When the player enters the campaign from Bonemenu or the Main Menu, they will not be able to leave until they press the Exit Campaign button in their menu")]
         public bool LockPlayerInCampaign;
         [Tooltip("When the player resets their CampaignTools save, these crates will get re-locked as well")]
         public SpawnableCrateReference[] CampaignUnlockCrates;
         [Tooltip("These spawnables will NOT be unlockable through the Gachapon machine in G114")]
         public SpawnableCrateReference[] HideCratesFromGachapon;
+        [Tooltip("Override Spawnable for the Rig Manager. DO NOT USE unless you know what you are doing")]
+        public SpawnableCrateReference RigManagerOverride;
+        [Tooltip("Override Spawnable for the Gameplay Rig. DO NOT USE unless you know what you are doing")]
+        public SpawnableCrateReference GameplayRigOverride;
+        [Tooltip("Custom Code Mod assembly that Custom Campaign Tools can load in. GENUINELY DO NOT USE THIS UNLESS YOU HAVE ELITE BALL KNOWLEDGE")]
+        public TextAsset CampaignSupportAssembly;
         [Tooltip("If this is a development build, enabling this will allow you to access dev menu in bonemenu for testing")]
         public bool DevBuild = false;
+
+        [SerializeField]
+        private bool foldoutLevels = true;
+        [SerializeField]
+        private bool foldoutCheats = true;
+        [SerializeField]
+        private bool foldoutExtras = true;
+        [SerializeField]
+        private bool foldoutExperimental = false;
         
 
 #if UNITY_EDITOR
         //[ContextMenu("Add Assets to Addressables")]
         public void AddAssetsToAddressables()
         {
-            foreach (SerializableAchievement a in Achievements)
+            foreach (var a in Achievements)
             {
                 AddTextureToAddressables(a.Icon);
             }
@@ -106,7 +141,6 @@ namespace CustomCampaignTools.SDK
             }
             AddressableAssetGroup group = settings.DefaultGroup;
 
-            // Convert the asset path to a GUID
             string guid = texture.AssetGUID;
 
             // Create or move the entry to the specified group
@@ -145,79 +179,20 @@ namespace CustomCampaignTools.SDK
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
             string json = JsonConvert.SerializeObject(data, settings);
-            string outputPath = Path.Combine(AddressablesManager.GetBuiltModFolder(Pallet), "campaign.json.bundle");
+            string outputPath = Path.Combine(AddressablesManager.GetBuiltModFolder(Pallet), CampaignConstants.CampaignJsonFileName);
             File.WriteAllText(outputPath, json);
         }
 
 
-        public static List<string> CrateArrayToBarcodes(ScannableReference[] levelCrateReferences)
+        public static List<ScannableRefSer<T>> CrateArrayToBarcodes<T>(T[] levelCrateReferences) where T : ScannableReference
         {
-            List<string> barcodes = new List<string>();
-            foreach(ScannableReference re in levelCrateReferences)
+            List<ScannableRefSer<T>> barcodes = new List<ScannableRefSer<T>>();
+            foreach(T re in levelCrateReferences)
             {
-                barcodes.Add(re.Barcode.ID);
+                barcodes.Add(new(re));
             }
             return barcodes;
         }
 #endif
-    }
-
-    [Flags]
-    public enum AvatarRestrictionType
-    {
-        None = 0,
-        DisableBodyLog = 1,
-        RestrictAvatar = 2,
-        EnforceWhitelist = 4
-    }
-
-    [Serializable]
-    public struct SerializableAchievement
-    {
-        public string Key;
-        public bool Hidden;
-        public MarrowAssetT<Texture2D> Icon;
-        public string Name;
-        public string Description;
-
-#if UNITY_EDITOR
-        public AchievementData ConvertToData()
-        {
-            byte[] IconBytes = new byte[0];
-
-            string path = AssetDatabase.GUIDToAssetPath(Icon.AssetGUID);
-            if (File.Exists(path))
-                IconBytes = File.ReadAllBytes(path);
-
-            return new AchievementData()
-            {
-                Key = Key,
-                Hidden = Hidden,
-                IconBytes = IconBytes,
-                Name = Name,
-                Description = Description,
-            };
-        }
-        
-        public static List<AchievementData> ConvertToData(SerializableAchievement[] achievements)
-        {
-            var list = new List<AchievementData>();
-            foreach (var achievement in achievements)
-            {
-                list.Add(achievement.ConvertToData());
-            }
-            return list;
-        }
-#endif
-    }
-
-    public struct AchievementData
-    {
-        public string Key { get; set; }
-        public bool Hidden { get; set; }
-        public byte[] IconBytes { get; set; }
-        public string IconGUID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

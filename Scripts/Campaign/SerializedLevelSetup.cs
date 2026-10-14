@@ -1,11 +1,25 @@
+#if MELONLOADER
+using Il2CppSLZ.Marrow.Warehouse;
+#else
+using SLZ.Marrow.Warehouse;
+using CustomCampaignTools.SDK;
+#endif
+using SimpleSerializables.Types;
+#if UNITY_EDITOR
 using System.Collections.Generic;
+#endif
 
-namespace CustomCampaignTools.SDK
+namespace CustomCampaignTools
 {
-    internal class SerializedLevelSetup
+    public class SerializedLevelSetup
     {
-        public string levelBarcode;
+        public LevelCrateRefSer levelBarcode = new LevelCrateRefSer(Barcode.EmptyBarcode());
         public string levelName;
+
+        public bool IsValid()
+        {
+            return levelBarcode.IsValid();
+        }
 
 #if UNITY_EDITOR
         public static List<SerializedLevelSetup> CopyFrom(LevelSetup[] levelSetups)

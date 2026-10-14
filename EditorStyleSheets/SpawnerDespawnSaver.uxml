@@ -3,5 +3,7 @@
         <ui:Label text="Saves extra info about whether this spawner was despawned or killed. If the spawned object was despawned during a SavePoint, it will not be spawned in when loading that save point.&#10;&#10;Example 1: Put this script on all Ammo spawners to save which ammo boxes have already been collected.&#10;&#10;Example 2: Single-spawn NPCs that you don&apos;t want to respawn if they have already been killed. Do NOT use on spawners in Encounters" display-tooltip-when-elided="true" style="white-space: normal;" />
     </ui:Foldout>
     <ui:VisualElement style="height: 10px;" />
-    <ui:Button text="Reset UltEvent" display-tooltip-when-elided="true" name="ResetButton" />
+    <uie:PropertyField binding-path="crateSpawner" name="crateSpawnerProp" />
+    <uie:PropertyField binding-path="uniqueID" label="Unique ID" name="uniqueIdProp" />
+    <ui:Button text="Reset Fields" display-tooltip-when-elided="true" name="ResetButton" />
 </ui:UXML>

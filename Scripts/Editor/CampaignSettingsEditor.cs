@@ -3,16 +3,17 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using CustomCampaignTools.SDK;
-using Unity.Plastic.Antlr3.Runtime.Tree;
-using WebSocketSharp;
+using CustomCampaignTools;
 
 [CustomEditor(typeof(CampaignSettings))]
 public class CampaignSettingsEditor : Editor
 {
     VisualElement Restrict;
     VisualElement Whitelist;
+    VisualElement StatRange;
     Toggle BodylogToggle;
     Button ExportButton;
+    Label ExportedMessage;
 
     new CampaignSettings target;
 
@@ -30,14 +31,10 @@ public class CampaignSettingsEditor : Editor
         DropdownField AvatarRestriction = tree.Q<DropdownField>("AvatarRestriction");
         Restrict = tree.Q<VisualElement>("RestrictionType-Restrict");
         Whitelist = tree.Q<VisualElement>("RestrictionType-Whitelist");
+        StatRange = tree.Q<VisualElement>("RestrictionType-Stats");
         BodylogToggle = tree.Q<Toggle>("DisableBodyLog");
 
         AvatarRestriction.RegisterValueChangedCallback(choice => OnRestrictionChoiceChanged(choice.newValue));
-
-        if (target.AvatarRestriction.HasFlag(AvatarRestrictionType.DisableBodyLog))
-        {
-            BodylogToggle.value = true;
-        }
 
         if (target.AvatarRestriction == AvatarRestrictionType.None)
         {
@@ -54,6 +51,11 @@ public class CampaignSettingsEditor : Editor
             AvatarRestriction.index = 1;
             OnRestrictionChoiceChanged(AvatarRestriction.choices[1]);
         }
+        else if (target.AvatarRestriction.HasFlag(AvatarRestrictionType.EnforceStatRange))
+        {
+            AvatarRestriction.index = 3;
+            OnRestrictionChoiceChanged(AvatarRestriction.choices[3]);
+        }
         else
         {
             AvatarRestriction.index = 0;
@@ -61,22 +63,12 @@ public class CampaignSettingsEditor : Editor
             OnRestrictionChoiceChanged(AvatarRestriction.choices[0]);
         }
 
-        BodylogToggle.RegisterCallback<ChangeEvent<bool>>((evt) =>
-        {
-            if (evt.newValue)
-            {
-                target.AvatarRestriction |= AvatarRestrictionType.DisableBodyLog;
-            }
-            else
-            {
-                target.AvatarRestriction &= ~AvatarRestrictionType.DisableBodyLog;
-            }
-        });
-
         ExportButton = tree.Q<Button>("ExportButton");
+        ExportedMessage = tree.Q<Label>("ExportComplete");
         ExportButton.RegisterCallback<MouseUpEvent>((evt) =>
         {
             target.SaveCampaignJson();
+            ExportedMessage.style.display = DisplayStyle.Flex;
         });
 
         root.Add(tree);
@@ -92,30 +84,30 @@ public class CampaignSettingsEditor : Editor
                 target.AvatarRestriction = AvatarRestrictionType.None;
                 Restrict.style.display = DisplayStyle.None;
                 Whitelist.style.display = DisplayStyle.None;
+                StatRange.style.display = DisplayStyle.None;
                 BodylogToggle.style.display = DisplayStyle.None;
                 break;
             case ("Restrict Avatar"):
                 target.AvatarRestriction = AvatarRestrictionType.RestrictAvatar;
                 Restrict.style.display = DisplayStyle.Flex;
                 Whitelist.style.display = DisplayStyle.None;
+                StatRange.style.display = DisplayStyle.None;
                 BodylogToggle.style.display = DisplayStyle.Flex;
                 break;
             case ("Avatar Whitelist"):
                 target.AvatarRestriction = AvatarRestrictionType.EnforceWhitelist;
                 Restrict.style.display = DisplayStyle.None;
                 Whitelist.style.display = DisplayStyle.Flex;
+                StatRange.style.display = DisplayStyle.None;
                 BodylogToggle.style.display = DisplayStyle.Flex;
                 break;
-        }
-
-
-        if (BodylogToggle.value)
-        {
-            target.AvatarRestriction |= AvatarRestrictionType.DisableBodyLog;
-        }
-        else
-        {
-            target.AvatarRestriction &= ~AvatarRestrictionType.DisableBodyLog;
+            case ("Avatar Stat Range"):
+                target.AvatarRestriction = AvatarRestrictionType.EnforceStatRange;
+                Restrict.style.display = DisplayStyle.None;
+                Whitelist.style.display = DisplayStyle.None;
+                StatRange.style.display = DisplayStyle.Flex;
+                BodylogToggle.style.display = DisplayStyle.Flex;
+                break;
         }
     }
 }

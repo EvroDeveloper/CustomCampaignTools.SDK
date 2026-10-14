@@ -2,38 +2,57 @@
     <ui:Label text="Campaign Settings" display-tooltip-when-elided="true" style="font-size: 20px; padding-top: 20px; padding-bottom: 20px;" />
     <ui:TextField picking-mode="Ignore" label="Name" value="New Campaign" text="New Campaign" name="Name" binding-path="Name" />
     <uie:PropertyField name="PalletSelect" binding-path="Pallet" />
-    <ui:Label text="Levels" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
-    <uie:PropertyField name="IntroLevel" binding-path="IntroLevel" />
-    <uie:PropertyField name="MainMenu" binding-path="MainMenu" />
-    <uie:PropertyField name="MainLevels" binding-path="MainLevels" />
-    <uie:PropertyField name="ExtraLevels" binding-path="ExtraLevels" />
-    <uie:PropertyField name="LoadScene" binding-path="LoadScene" />
-    <uie:PropertyField name="LoadSceneMusic" binding-path="LoadSceneMusic" />
-    <ui:Label text="Cheat Restriction" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
-    <ui:Toggle label="Unlockable Levels" name="UnlockableLevels" binding-path="UnlockableLevels" />
-    <ui:Toggle label="Restrict Dev Tools" name="RestrictDevTools" binding-path="RestrictDevTools" />
-    <ui:DropdownField label="Avatar Restriction" index="0" choices="None, Restrict Avatar, Avatar Whitelist" name="AvatarRestriction" tabindex="6" />
-    <ui:Toggle label="Disable Bodylog" name="DisableBodyLog" style="display: flex;" />
-    <ui:VisualElement name="RestrictionType-Restrict">
-        <uie:PropertyField name="CampaignAvatar" binding-path="CampaignAvatar" />
-        <uie:PropertyField name="BaseGameFallback" binding-path="BaseGameFallbackAvatar" />
-    </ui:VisualElement>
-    <ui:VisualElement name="RestrictionType-Whitelist">
-        <uie:PropertyField name="WhitelistedAvatars" binding-path="WhitelistedAvatars" />
-    </ui:VisualElement>
-    <ui:Label text="Extra Options" display-tooltip-when-elided="true" style="font-size: 15px; padding-top: 10px; padding-bottom: 5px;" />
-    <uie:PropertyField name="AchievementUnlockSound" binding-path="AchievementUnlockSound" />
-    <uie:PropertyField name="Achievements" binding-path="Achievements" />
-    <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" />
-    <ui:Toggle label="Prioritize in Level Panel" name="PrioritizeInPanel" binding-path="PrioritizeInLevelPanel" />
-    <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" />
-    <ui:Toggle label="Save Level Inventory" name="SaveInventory" binding-path="SaveInventoryBetweenLevels" />
-    <uie:PropertyField binding-path="SaveInventoryFilter" name="SaveInventoryFilter" label="Inventory Save Filter" />
-    <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" />
-    <uie:PropertyField binding-path="CampaignUnlockCrates" name="CampaignUnlockables" label="Campaign Unlockables" />
-    <uie:PropertyField binding-path="HideCratesFromGachapon" name="HideCratesFromGachapon" label="Hide Crates from Gachapon" />
-    <ui:Toggle label="Dev Build" name="DevBuild" binding-path="DevBuild" />
-    <ui:VisualElement style="align-items: center; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+    <ui:VisualElement style="align-items: center; margin-top: 20px;">
         <ui:Button text="Export JSON to Pallet" display-tooltip-when-elided="true" name="ExportButton" style="padding-top: 5px; padding-bottom: 5px; width: 50%; align-items: stretch;" />
+        <ui:Label text="Export Complete!" display-tooltip-when-elided="true" name="ExportComplete" style="display: none;" />
     </ui:VisualElement>
+    <ui:Foldout text="Levels" binding-path="foldoutLevels" name="Levels" style="font-size: 15px; margin-top: 10px;">
+        <uie:PropertyField name="IntroLevel" binding-path="IntroLevel" style="font-size: 12px;" />
+        <uie:PropertyField name="MainMenu" binding-path="MainMenu" style="font-size: 12px;" />
+        <uie:PropertyField name="MainLevels" binding-path="MainLevels" style="font-size: 12px;" />
+        <uie:PropertyField name="ExtraLevels" binding-path="ExtraLevels" style="font-size: 12px;" />
+        <uie:PropertyField name="LoadScene" binding-path="LoadScene" style="font-size: 12px;" />
+        <uie:PropertyField name="LoadSceneMusic" binding-path="LoadSceneMusic" style="font-size: 12px;" />
+    </ui:Foldout>
+    <ui:Foldout text="Cheat Restriction" binding-path="foldoutCheats" name="Cheats" style="font-size: 15px; margin-top: 20px;">
+        <ui:Toggle label="Restrict Dev Tools" name="RestrictDevTools" binding-path="RestrictDevTools" style="font-size: 12px;" />
+        <ui:DropdownField label="Avatar Restriction" index="0" choices="None,Restrict Avatar,Avatar Whitelist,Avatar Stat Range" name="AvatarRestriction" tabindex="6" style="font-size: 12px;" />
+        <ui:VisualElement name="AvatarRestrictionParent" style="padding-left: 10px; font-size: 12px;">
+            <ui:Toggle label="Disable Bodylog" name="DisableBodyLog" binding-path="DisableBodyLog" style="display: flex; height: 15px;" />
+            <ui:VisualElement name="RestrictionType-Restrict">
+                <uie:PropertyField name="CampaignAvatar" binding-path="CampaignAvatar" />
+                <uie:PropertyField name="BaseGameFallback" binding-path="BaseGameFallbackAvatar" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RestrictionType-Whitelist">
+                <uie:PropertyField name="WhitelistedAvatars" binding-path="WhitelistedAvatars" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RestrictionType-Stats" style="display: flex;">
+                <uie:Vector2Field label="Height Range (Meters)" binding-path="AvatarHeightRange" y="2" />
+                <uie:Vector2Field label="Mass Range (Kilograms)" binding-path="AvatarMassRange" y="2" />
+                <uie:Vector2Field label="Arm Length Range (Meters)" binding-path="AvatarArmRange" y="2" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Toggle label="Unlockable Levels" name="UnlockableLevels" binding-path="UnlockableLevels" style="font-size: 12px;" />
+    </ui:Foldout>
+    <ui:Foldout text="Extra Options" binding-path="foldoutExtras" name="Extras" style="font-size: 15px; margin-top: 20px;">
+        <ui:VisualElement name="textfixer" style="font-size: 12px;">
+            <uie:PropertyField name="Achievements" binding-path="Achievements" />
+            <uie:PropertyField name="AchievementUnlockSound" binding-path="AchievementUnlockSound" />
+            <ui:Toggle label="Show Campaign in Menu" name="CampaignInMenu" binding-path="ShowCampaignInMenu" style="margin-top: 3px;" />
+            <ui:Toggle label="Prioritize in Level Panel" name="PrioritizeInPanel" binding-path="PrioritizeInLevelPanel" style="margin-top: 3px;" />
+            <ui:Toggle label="Save Level Ammo" name="SaveAmmo" binding-path="SaveAmmoBetweenLevels" style="margin-top: 3px;" />
+            <ui:Toggle label="Save Level Inventory" name="SaveInventory" binding-path="SaveInventoryBetweenLevels" style="height: 15px; margin-top: 3px;" />
+            <uie:PropertyField binding-path="SaveInventoryFilter" name="SaveInventoryFilter" label="Inventory Save Filter" style="margin-left: 10px;" />
+            <ui:Toggle label="Update Save on Level Enter" name="EnterUpdateSave" binding-path="UpdateSaveOnLevelEnter" style="margin-top: 3px;" />
+            <ui:Toggle label="Lock Player in Campaign" name="LockPlayer" binding-path="LockPlayerInCampaign" style="margin-top: 3px;" />
+            <uie:PropertyField binding-path="CampaignUnlockCrates" name="CampaignUnlockables" label="Campaign Unlockables" />
+            <uie:PropertyField binding-path="HideCratesFromGachapon" name="HideCratesFromGachapon" label="Hide Crates from Gachapon" />
+        </ui:VisualElement>
+    </ui:Foldout>
+    <ui:Foldout text="Experimental Options: USE WITH CAUTION" name="Experimentals" binding-path="foldoutExperimental" style="font-size: 15px; margin-top: 20px; margin-bottom: 10px;">
+        <uie:PropertyField binding-path="RigManagerOverride" label="RigManager Override Spawnable" style="font-size: 12px;" />
+        <uie:PropertyField binding-path="GameplayRigOverride" label="Gameplay Rig Override Spawnable" style="font-size: 12px;" />
+        <uie:PropertyField binding-path="CampaignSupportAssembly" label="Campaign Support Assembly" style="font-size: 12px;" />
+    </ui:Foldout>
+    <ui:Toggle label="Dev Build" name="DevBuild" binding-path="DevBuild" />
 </ui:UXML>
