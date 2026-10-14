@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using SLZ.MarrowEditor;
-using SLZ.MLAgents;
 using System.IO;
 using System.ComponentModel;
 using CustomCampaignTools;
