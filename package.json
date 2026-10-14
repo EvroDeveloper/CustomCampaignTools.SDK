@@ -1,0 +1,19 @@
+{
+  "name": "com.evrodev.customcampaigntools.sdk",
+  "version": "1.2.0",
+  "displayName": "Custom Campaign Tools SDK",
+  "description": "SDK for creating custom mod content.",
+  "author": {
+    "name": "EvroDev"
+  },
+  "unity": "2021.3",
+  "unityRelease": "16f1",
+  "hideInEditor": false,
+  "samples": [
+    {
+      "displayName": "Campaign Components",
+      "description": "Required dummy MonoBehaviours for Custom Campaign Tools",
+      "path": "Samples~/CampaignComponents"
+    }
+  ]
+}
