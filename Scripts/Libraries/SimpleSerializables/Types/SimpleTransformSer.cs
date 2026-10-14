@@ -1,0 +1,31 @@
+using SLZ.Marrow.Utilities;
+using System;
+using UnityEngine;
+
+namespace SimpleSerializables.Types
+{
+    public class SimpleTransformSer
+    {
+        public Vector3Ser position;
+        public QuaternionSer rotation;
+
+        public SimpleTransformSer() {}
+    
+        public SimpleTransformSer(SimpleTransform transform)
+        {
+            position = new(transform.position);
+            rotation = new(transform.rotation);
+        }
+
+        public SimpleTransformSer(Transform transform)
+        {
+            position = new(transform.position);
+            rotation = new(transform.rotation);
+        }
+
+        public SimpleTransform ToSimpleTransform()
+        {
+            return new SimpleTransform(position, rotation.ToQuaternion());
+        }
+    }
+}
